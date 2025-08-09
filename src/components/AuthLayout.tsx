@@ -191,24 +191,7 @@ export default function AuthLayout({
         return () => ctx.revert()
     }, [isMounted])
 
-    useEffect(() => {
-        // Animate form content when children change
-        if (formRef.current) {
-            gsap.fromTo(formRef.current.children,
-                {
-                    opacity: 0,
-                    y: 20
-                },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.6,
-                    stagger: 0.1,
-                    ease: "back.out(1.7)"
-                }
-            )
-        }
-    }, [children])
+    // Removed the children animation effect to prevent animation on every keystroke
 
     return (
         <div className="h-screen flex overflow-hidden">
