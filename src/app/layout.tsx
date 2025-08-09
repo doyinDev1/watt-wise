@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
+import AuthSessionProvider from "@/components/SessionProvider";
+import AuthProvider from "@/components/AuthProvider";
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Toaster } from 'react-hot-toast'
 const outfit = Outfit({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -24,8 +27,15 @@ export default function RootLayout({
         className={`${outfit.variable} font-sans antialiased`}
         style={{ fontFamily: 'var(--font-outfit), sans-serif' }}
       >
-        <SpeedInsights />
-        {children}
+        <AuthSessionProvider>
+          <AuthProvider>
+            <SpeedInsights />
+            {children}
+            <Toaster
+              position="top-right"
+            />
+          </AuthProvider>
+        </AuthSessionProvider>
       </body>
     </html>
   );

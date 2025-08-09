@@ -10,6 +10,8 @@ import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import Image from "next/image"
+import Link from "next/link"
+import { useAuthStore } from "@/store/authStore"
 
 // Testimonial data
 const testimonials = [
@@ -208,6 +210,7 @@ const faqs = [
 ]
 
 export default function Home() {
+  const { user, logout, isLoading } = useAuthStore()
   const testimonialSectionRef = useRef<HTMLDivElement>(null)
   const featuresSectionRef = useRef<HTMLDivElement>(null)
   const howItWorksSectionRef = useRef<HTMLDivElement>(null)
@@ -427,9 +430,27 @@ export default function Home() {
 
             {/* CTA Buttons */}
             <div className="flex items-center space-x-4">
-              <Button variant="secondary" size="sm">
-                Login
-              </Button>
+              {user ? (
+                <>
+                  <span className="text-sm text-muted-foreground hidden sm:block">
+                    Welcome, {user.name || 'User'}!
+                  </span>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={logout}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? 'Logging out...' : 'Logout'}
+                  </Button>
+                </>
+              ) : (
+                <Link href="/auth/login">
+                  <Button variant="secondary" size="sm">
+                    Login
+                  </Button>
+                </Link>
+              )}
               <Button size="sm">
                 Get Estimate
               </Button>
@@ -714,7 +735,7 @@ export default function Home() {
           </div>
           <Separator className="my-8" />
           <div className="text-center text-muted-foreground">
-            <p>&copy; 2024 WattWise. All rights reserved.</p>
+            <p>&copy; 2025 WattWise. All rights reserved.</p>
           </div>
         </div>
       </footer>
