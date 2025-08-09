@@ -13,3 +13,7 @@ GOOGLE_CLIENT_SECRET="your-google-client-secret"
 
 # JWT Secret
 JWT_SECRET="your-jwt-secret-key-here"
+
+# Email Configuration (for Password Reset)
+EMAIL_USER="adedoyin27@gmail.com"
+EMAIL_PASS="iyqo auef pryh zrqw"

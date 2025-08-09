@@ -12,6 +12,7 @@
   "dependencies": {
     "@auth/prisma-adapter": "^2.10.0",
     "@prisma/client": "^6.13.0",
+    "@types/nodemailer": "^6.4.17",
     "@vercel/speed-insights": "^1.2.0",
     "axios": "^1.11.0",
     "bcryptjs": "^3.0.2",
@@ -22,6 +23,7 @@
     "lucide-react": "^0.536.0",
     "next": "15.4.6",
     "next-auth": "^4.24.11",
+    "nodemailer": "^6.10.1",
     "prisma": "^6.13.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
