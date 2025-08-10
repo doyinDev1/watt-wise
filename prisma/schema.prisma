@@ -29,6 +29,7 @@ model User {
 
   accounts Account[]
   sessions Session[]
+  calculations Calculation[] // Add this relation
 
   @@map("users")
 }
@@ -71,4 +72,29 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verification_tokens")
+}
+
+model Calculation {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Input data
+  location  String
+  disco     String
+  inputMethod String // "meter" or "appliances"
+  monthlyBill String? // For meter input method
+  
+  // Appliance data (stored as JSON)
+  appliances Json? // Array of appliance objects
+  
+  // Results
+  dailyConsumption Float
+  monthlyConsumption Float
+  recommendedSystemSize Float
+  estimatedCost Float
+  
+  createdAt DateTime @default(now())
+  
+  @@map("calculations")
 }
