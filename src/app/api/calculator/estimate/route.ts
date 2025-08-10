@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth-config";
 import { db } from "@/lib/db";
 
 interface Appliance {
@@ -83,7 +83,8 @@ export async function POST(request: NextRequest) {
         const estimatedCost = recommendedSystemSize * 1000000; // Rough estimate: ₦1M per kW
 
         // Save calculation to database
-        const calculation = await db.calculation.create({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const calculation = await (db as any).calculation.create({
             data: {
                 userId: user.id,
                 location,

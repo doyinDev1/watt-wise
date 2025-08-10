@@ -1,70 +1,50 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { verifyJWTToken } from '@/lib/auth'
-import { db } from '@/lib/db'
-import { getServerSession } from 'next-auth'
+import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth-config";
+import { db } from "@/lib/db";
 
 export async function GET(request: NextRequest) {
   try {
-    let user = null
-
-    // First try NextAuth session
-    const session = await getServerSession()
-    if (session?.user?.email) {
-      user = await db.user.findUnique({
-        where: { email: session.user.email },
-        select: {
-          id: true,
-          email: true,
-          name: true,
-          image: true,
-          emailVerified: true,
-          createdAt: true,
-          updatedAt: true
-        }
-      })
+    // Get user session
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.email) {
+      return NextResponse.json(
+        { success: false, message: 'Authentication required' },
+        { status: 401 }
+      );
     }
 
-    // If no NextAuth session, try JWT token
-    if (!user) {
-      const token = request.cookies.get('auth-token')?.value
-      if (token) {
-        try {
-          const payload = verifyJWTToken(token)
-          user = await db.user.findUnique({
-            where: { id: payload.userId },
-            select: {
-              id: true,
-              email: true,
-              name: true,
-              image: true,
-              emailVerified: true,
-              createdAt: true,
-              updatedAt: true
-            }
-          })
-        } catch (jwtError) {
-          // JWT verification failed, continue
-        }
+    // Get user from database
+    const user = await db.user.findUnique({
+      where: { email: session.user.email },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        image: true,
+        emailVerified: true,
+        createdAt: true,
+        updatedAt: true
       }
-    }
+    });
 
     if (!user) {
       return NextResponse.json(
-        { success: false, message: 'No valid authentication found' },
-        { status: 401 }
-      )
+        { success: false, message: 'User not found' },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json({ 
       success: true,
       user 
-    })
+    });
 
   } catch (error) {
-    console.error('Get user error:', error)
+    console.error('Get user error:', error);
     return NextResponse.json(
       { success: false, message: 'Internal server error' },
       { status: 500 }
-    )
+    );
   }
 }
