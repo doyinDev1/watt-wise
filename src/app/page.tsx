@@ -460,38 +460,133 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative h-screen flex items-end justify-start p-8 sm:p-12 lg:p-16 overflow-hidden">
-        {/* Background layers for future animations */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 sm:pt-24 md:pt-16">
+        {/* Modern Solar-Themed Background */}
         <div className="absolute inset-0 z-0">
-          {/* Unicorn.studio interactive background */}
-          {/* <UnicornStudioBackground /> */}
-          <Image src="/images/hero.png" alt="Hero Background" fill className="object-cover" />
+          {/* Gradient Background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-900 via-emerald-800 to-teal-900" />
 
-          {/* Solar-themed animated background placeholder */}
-          <div className="absolute inset-0 opacity-10">
-            {/* This div is reserved for future solar-themed SVG/canvas animations */}
-            <div className="absolute top-20 right-20 w-32 h-32 rounded-full bg-primary/20 animate-pulse" />
-            <div className="absolute bottom-40 left-20 w-24 h-24 rounded-full bg-secondary/20 animate-pulse delay-1000" />
-            <div className="absolute top-1/2 left-1/2 w-16 h-16 rounded-full bg-accent/20 animate-pulse delay-500" />
+          {/* Animated Grid Pattern */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute inset-0" style={{
+              backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)`,
+              backgroundSize: '40px 40px'
+            }} />
+          </div>
+
+          {/* Floating Solar Elements */}
+          <div className="absolute top-20 left-20 w-32 h-32 opacity-30">
+            <div className="w-full h-full bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full animate-pulse" style={{ animationDuration: '3s' }} />
+            <div className="absolute inset-0 bg-gradient-to-br from-yellow-300 to-orange-400 rounded-full animate-ping" style={{ animationDuration: '4s' }} />
+          </div>
+
+          <div className="absolute top-40 right-32 w-24 h-24 opacity-40">
+            <div className="w-full h-full bg-gradient-to-br from-blue-400 to-cyan-500 rounded-full animate-bounce delay-1000" />
+          </div>
+
+          <div className="absolute bottom-32 left-1/3 w-20 h-20 opacity-30">
+            <div className="w-full h-full bg-gradient-to-br from-green-400 to-emerald-500 rounded-full animate-pulse delay-500" />
+          </div>
+
+          {/* Energy Wave Lines */}
+          <div className="absolute bottom-0 left-0 right-0 h-32 opacity-30">
+            <svg className="w-full h-full" viewBox="0 0 1200 120" fill="none">
+              <path d="M0 120C200 80 400 100 600 80C800 60 1000 100 1200 80V120H0Z" fill="url(#wave1)" />
+              <path d="M0 120C200 100 400 60 600 100C800 80 1000 60 1200 100V120H0Z" fill="url(#wave2)" />
+              <defs>
+                <linearGradient id="wave1" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="rgba(34,197,94,0.3)" />
+                  <stop offset="100%" stopColor="rgba(16,185,129,0.3)" />
+                </linearGradient>
+                <linearGradient id="wave2" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="rgba(16,185,129,0.2)" />
+                  <stop offset="100%" stopColor="rgba(5,150,105,0.2)" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+
+          {/* Floating Solar Panels */}
+          <div className="absolute top-1/4 right-1/4 w-48 h-32 opacity-20 transform rotate-12">
+            <div className="w-full h-full bg-gradient-to-br from-slate-200 to-slate-300 rounded-lg shadow-lg" />
+            <div className="absolute inset-2 bg-gradient-to-br from-blue-200 to-blue-300 rounded" />
+            <div className="absolute inset-4 bg-gradient-to-br from-blue-100 to-blue-200 rounded" />
+          </div>
+
+          <div className="absolute bottom-1/4 left-1/4 w-40 h-28 opacity-20 transform -rotate-12">
+            <div className="w-full h-full bg-gradient-to-br from-slate-200 to-slate-300 rounded-lg shadow-lg" />
+            <div className="absolute inset-2 bg-gradient-to-br from-blue-200 to-blue-300 rounded" />
+            <div className="absolute inset-4 bg-gradient-to-br from-blue-100 to-blue-200 rounded" />
+          </div>
+
+          {/* Animated Particles */}
+          <div className="absolute inset-0">
+            {[...Array(20)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute w-2 h-2 bg-white rounded-full opacity-60 animate-pulse"
+                style={{
+                  left: `${(i * 5.5) % 100}%`,
+                  top: `${(i * 7.3) % 100}%`,
+                  animationDelay: `${(i * 0.2)}s`,
+                  animationDuration: `${2 + (i % 3)}s`
+                }}
+              />
+            ))}
           </div>
         </div>
 
         {/* Hero Content */}
-        <div className="relative z-10 max-w-4xl">
+        <div className="relative z-10 text-center max-w-6xl px-4 sm:px-8 py-8 sm:py-0">
+          {/* Badge */}
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-sm font-medium mb-8 backdrop-blur-sm">
+            <span className="w-2 h-2 bg-emerald-400 rounded-full mr-2 animate-pulse"></span>
+            Empowering Nigeria with Clean Energy
+          </div>
+
+          {/* Main Headline */}
           <AnimatedHeadline
             text="TAKE CHARGE OF YOUR POWER."
-            className="text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground leading-tight mb-8"
+            className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6"
           />
-          <div className="mb-8">
-            <Button size="lg" className="text-lg px-8 py-4">
+
+          {/* Subtitle */}
+          <p className="text-xl sm:text-2xl text-emerald-100/90 mb-12 max-w-4xl mx-auto leading-relaxed">
+            Calculate your solar energy needs, reduce electricity bills, and contribute to a sustainable future with our AI-powered platform
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Button size="lg" className="text-lg px-8 py-4 bg-emerald-500 hover:bg-emerald-600 text-white border-0 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
+              <span className="mr-2">⚡</span>
               Calculate My Solar Needs
             </Button>
+            <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-2 border-white/30 text-white hover:bg-white hover:text-emerald-900 bg-transparent backdrop-blur-sm">
+              <span className="mr-2">📊</span>
+              View Demo
+            </Button>
+          </div>
+
+          {/* Stats */}
+          <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-white mb-2">2,500+</div>
+              <div className="text-emerald-200/80">Happy Customers</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-white mb-2">₦15M+</div>
+              <div className="text-emerald-100/80">Total Savings</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-white mb-2">98%</div>
+              <div className="text-emerald-200/80">Accuracy Rate</div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-16 bg-muted/30">
+      <section className="py-12 sm:py-16 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-foreground mb-4">
@@ -534,7 +629,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section id="benefits" className="py-20 bg-muted/20">
+      <section id="benefits" className="py-16 sm:py-20 bg-muted/20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <Badge variant="secondary" className="mb-4">
@@ -691,7 +786,7 @@ export default function Home() {
             <Button size="lg" variant="secondary" className="text-lg px-8 py-4">
               Calculate My Solar Needs
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
+            <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary bg-transparent">
               Learn More
             </Button>
           </div>
