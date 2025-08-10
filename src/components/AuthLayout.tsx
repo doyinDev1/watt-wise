@@ -38,14 +38,42 @@ export default function AuthLayout({
     useEffect(() => {
         if (!isMounted) return
 
+        // Check if we're on mobile - if so, just show elements without animation
+        const isMobile = window.innerWidth < 768
+
         const ctx = gsap.context(() => {
+            if (isMobile) {
+                // On mobile: just show everything immediately, no animations
+                gsap.set([sunRef.current, solarPanelsRef.current, energyWavesRef.current, textContentRef.current, formRef.current], {
+                    opacity: 1,
+                    scale: 1,
+                    x: 0,
+                    y: 0
+                })
+                return
+            }
+
+            // Desktop only: Check if animations have already run (prevent re-running on route changes)
+            const hasAnimated = localStorage.getItem('authLayoutAnimated')
+
+            // If already animated, just show elements without animation
+            if (hasAnimated) {
+                gsap.set([sunRef.current, solarPanelsRef.current, energyWavesRef.current, textContentRef.current, formRef.current], {
+                    opacity: 1,
+                    scale: 1,
+                    x: 0,
+                    y: 0
+                })
+                return
+            }
+
             // Initial setup - hide all elements
             gsap.set([sunRef.current, solarPanelsRef.current, energyWavesRef.current, textContentRef.current, formRef.current], {
                 opacity: 0,
                 scale: 0.8
             })
 
-            // Create main timeline
+            // Create main timeline for desktop
             const tl = gsap.timeline()
 
             // 1. Animate the background gradient
@@ -183,12 +211,17 @@ export default function AuthLayout({
 
             window.addEventListener('mousemove', handleMouseMove)
 
+            // Mark as animated to prevent re-running
+            localStorage.setItem('authLayoutAnimated', 'true')
+
             return () => {
                 window.removeEventListener('mousemove', handleMouseMove)
             }
         }, containerRef)
 
-        return () => ctx.revert()
+        return () => {
+            ctx.revert()
+        }
     }, [isMounted])
 
     // Removed the children animation effect to prevent animation on every keystroke
