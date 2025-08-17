@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { useAuthStore } from "@/store/authStore";
 import toast from "react-hot-toast";
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/MainNavbar";
 
 interface Appliance {
     name: string;
