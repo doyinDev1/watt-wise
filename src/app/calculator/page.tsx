@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { useAuthStore } from "@/store/authStore";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import Navbar from "@/components/Navbar";
 
 interface Appliance {
     name: string;
@@ -202,6 +203,9 @@ export default function CalculatorPage() {
     }, [showHistory, user]);
 
     return (
+    <div className="min-h-screen bg-background mt-16">
+        
+        <Navbar />
         <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 py-8 px-4">
             <div className="max-w-4xl mx-auto">
                 <div className="text-center mb-8">
@@ -605,6 +609,7 @@ export default function CalculatorPage() {
                     </Card>
                 )}
             </div>
+        </div>
         </div>
     );
 } 
