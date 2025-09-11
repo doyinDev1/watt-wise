@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
             }
             // Calculate from appliances
             dailyConsumption = appliances.reduce((total, app) => {
-                return total + (app.power * app.hours * app.quantity) / 1000;
+                return total + (app.power * app.hours * app.quantity) / 100;
             }, 0);
         }
 

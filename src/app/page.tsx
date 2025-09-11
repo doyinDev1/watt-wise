@@ -399,13 +399,13 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
-    // Close dropdowns when clicking outside
+    // Close dropdowns when clicking outside - but NOT mobile menu
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Element
-      if (!target.closest('.user-menu') && !target.closest('.mobile-menu')) {
+      if (!target.closest('.user-menu')) {
         setIsUserMenuOpen(false)
-        setIsMobileMenuOpen(false)
       }
+      // Don't close mobile menu on outside click - let it close only on navigation
     }
 
     document.addEventListener('mousedown', handleClickOutside)
@@ -510,35 +510,49 @@ export default function Home() {
 
           {/* Mobile Menu */}
           {isMobileMenuOpen && (
-            <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-md">
+            <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-md" style={{ zIndex: 9999, position: 'relative' }}>
               <div className="px-4 py-4 space-y-4">
                 {/* Mobile Navigation Links */}
                 <div className="space-y-2">
-                  <a href="#how-it-works" className="block text-foreground/80 hover:text-foreground transition-colors py-2">
+                  <a href="#how-it-works" className="block text-foreground/80 hover:text-foreground transition-colors py-2" onClick={() => setIsMobileMenuOpen(false)}>
                     How it Works
                   </a>
-                  <a href="#pricing" className="block text-foreground/80 hover:text-foreground transition-colors py-2">
+                  <a href="#pricing" className="block text-foreground/80 hover:text-foreground transition-colors py-2" onClick={() => setIsMobileMenuOpen(false)}>
                     Pricing
                   </a>
-                  <a href="#benefits" className="block text-foreground/80 hover:text-foreground transition-colors py-2">
+                  <a href="#benefits" className="block text-foreground/80 hover:text-foreground transition-colors py-2" onClick={() => setIsMobileMenuOpen(false)}>
                     Benefits
                   </a>
-                  <a href="#faqs" className="block text-foreground/80 hover:text-foreground transition-colors py-2">
+                  <a href="#faqs" className="block text-foreground/80 hover:text-foreground transition-colors py-2" onClick={() => setIsMobileMenuOpen(false)}>
                     FAQs
                   </a>
-                  <a href="#contact" className="block text-foreground/80 hover:text-foreground transition-colors py-2">
+                  <a href="#contact" className="block text-foreground/80 hover:text-foreground transition-colors py-2" onClick={() => setIsMobileMenuOpen(false)}>
                     Contact
                   </a>
                 </div>
 
                 {/* Mobile Calculator & History Links */}
                 <div className="space-y-2 pt-2 border-t border-border">
-                  <Link href="/calculator" className="block text-foreground/80 hover:text-foreground transition-colors py-2">
+                  <button
+                    onClick={() => {
+                      window.location.href = '/calculator'
+                      setIsMobileMenuOpen(false)
+                    }}
+                    className="block w-full text-left text-foreground/80 hover:text-foreground transition-colors py-2"
+                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                  >
                     Calculator
-                  </Link>
-                  <Link href="/calculator/history" className="block text-foreground/80 hover:text-foreground transition-colors py-2">
+                  </button>
+                  <button
+                    onClick={() => {
+                      window.location.href = '/calculator/history'
+                      setIsMobileMenuOpen(false)
+                    }}
+                    className="block w-full text-left text-foreground/80 hover:text-foreground transition-colors py-2"
+                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                  >
                     History
-                  </Link>
+                  </button>
                 </div>
 
                 {/* Mobile Auth Section */}
@@ -561,16 +575,21 @@ export default function Home() {
                         }}
                         className="w-full text-left text-sm text-foreground hover:text-primary transition-colors py-2"
                         disabled={isLoading}
+                        style={{ background: 'none', border: 'none', cursor: 'pointer' }}
                       >
                         {isLoading ? 'Logging out...' : 'Logout'}
                       </button>
                     </div>
                   ) : (
-                    <Link href="/auth/login">
-                      <Button variant="secondary" size="sm" className="w-full">
-                        Login
-                      </Button>
-                    </Link>
+                    <button
+                      onClick={() => {
+                        window.location.href = '/auth/login'
+                        setIsMobileMenuOpen(false)
+                      }}
+                      className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/80 h-9 rounded-md px-3 text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                    >
+                      Login
+                    </button>
                   )}
                 </div>
               </div>
