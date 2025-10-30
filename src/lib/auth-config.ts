@@ -47,8 +47,16 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async signIn({ user, account, profile }) {
-      // Handle account linking for Google OAuth
+      // Always update Google avatar in DB if signing in with Google
       if (account?.provider === 'google' && user.email) {
+        type GoogleProfile = { picture?: string };
+        const googleProfile = profile as GoogleProfile;
+        if (googleProfile?.picture) {
+          await db.user.update({
+            where: { email: user.email },
+            data: { image: googleProfile.picture }
+          }).catch(() => {});
+        }
         try {
           // Check if user already exists with this email (case-insensitive)
           const existingUser = await findUserByEmail(user.email.toLowerCase())
@@ -77,7 +85,6 @@ export const authOptions: NextAuthOptions = {
                 session_state: account.session_state,
               },
             })
-            
             // Update user object to use existing user ID
             user.id = existingUser.id
             return true

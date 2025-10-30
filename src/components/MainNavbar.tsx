@@ -117,9 +117,11 @@ const Navbar = () => {
           </div>
         </div>
 
+        {/* Mobile Menu for mobile  */}
         {isMobileMenuOpen && (
           <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-md" style={{ zIndex: 9999, position: 'relative' }}>
             <div className="px-4 py-4 space-y-4">
+              {/* Mobile Navigation Links */}
               <div className="space-y-2">
                 <a href="#how-it-works" className="block text-foreground/80 hover:text-foreground transition-colors py-2" onClick={() => setIsMobileMenuOpen(false)}>
                   How it Works
